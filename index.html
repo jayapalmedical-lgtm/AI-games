@@ -61,10 +61,70 @@ td{width:60px;height:60px;border:2px solid black;font-size:28px;cursor:pointer}
 <script>
 /* MENU */
 function show(id){
-document.querySelectorAll('.game').forEach(g=>g.style.display="none");
-document.getElementById(id).style.display="block";
+ document.querySelectorAll('.game').forEach(g=>g.style.display="none");
+ document.getElementById(id).style.display="block";
 }
 
-/* ========== GUESS MY NUMBER AI ========== */
+/* ===== GUESS MY NUMBER ===== */
 let lo=1, hi=100, g=50;
-function update(){g=Math.floor((lo+hi)/2
+function update(){
+ g=Math.floor((lo+hi)/2);
+ document.getElementById("guess").innerText=g;
+}
+function low(){ lo=g+1; update(); }
+function high(){ hi=g-1; update(); }
+function correct(){ alert("🎉 AI guessed your number: "+g); }
+
+/* ===== TIC TAC TOE ===== */
+let board=["","","","","","","","",""];
+let over=false;
+const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+function playTTT(i){
+ if(board[i]||over) return;
+ board[i]="X"; drawTTT();
+ if(check("X")){ end("🎉 You Win!"); return; }
+ aiTTT();
+ if(check("O")){ end("🤖 AI Wins!"); return; }
+ if(!board.includes("")) end("🤝 Draw!");
+}
+
+function aiTTT(){
+ let e=board.map((v,i)=>v==""?i:null).filter(v=>v!=null);
+ if(e.length) board[e[Math.floor(Math.random()*e.length)]]="O";
+ drawTTT();
+}
+
+function drawTTT(){
+ document.querySelectorAll("#ttt td").forEach((c,i)=>c.innerText=board[i]);
+}
+
+function check(p){ return wins.some(w=>w.every(i=>board[i]==p)); }
+function end(t){ document.getElementById("tttResult").innerText=t; over=true; }
+
+/* ===== QUIZ ===== */
+let base=[
+ ["Speed of light is 3×10⁸ m/s",true],
+ ["Ohm’s law is V=IR",true],
+ ["RAM is permanent memory",false],
+ ["Binary uses base 2",true],
+ ["CPU is brain of computer",true],
+ ["Sound travels in vacuum",false],
+ ["Water boils at 100°C",true],
+ ["LAN means Local Area Network",true],
+ ["Earth has two moons",false],
+ ["pH of acid < 7",true]
+];
+
+let q=[];
+while(q.length<100) q.push(base[Math.floor(Math.random()*base.length)]);
+let qi=0, sc=0;
+document.getElementById("question").innerText=q[0][0];
+
+function answer(a){
+ if(a==q[qi][1]) sc++;
+ qi++;
+ document.getElementById("question").innerText=q[qi][0];
+ document.getElementById("score").innerText="Score: "+sc+"/"+qi;
+}
+</script>
