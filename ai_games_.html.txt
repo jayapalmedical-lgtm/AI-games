@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> AI Games</title>
+<style>
+body{font-family:Arial;text-align:center;background:#eef}
+button{padding:10px;margin:5px;font-size:16px}
+.game{display:none;margin-top:20px}
+table{margin:auto;border-collapse:collapse}
+td{width:60px;height:60px;border:2px solid black;font-size:28px;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<h1>🎮  AI Game Hub</h1>
+<p>School Project</p>
+
+<button onclick="show('number')">🔢 Guess My Number</button>
+<button onclick="show('chess')">♟️ Casual Chess</button>
+<button onclick="show('ttt')">❌⭕ Tic Tac Toe</button>
+<button onclick="show('quiz')">🧠 Quiz</button>
+
+<!-- ========== GUESS MY NUMBER ========== -->
+<div id="number" class="game">
+<h2>AI Guess My Number</h2>
+<p>Think of a number between <b>1 and 100</b></p>
+<h3 id="guess">50</h3>
+<button onclick="low()">Too Low</button>
+<button onclick="correct()">Correct</button>
+<button onclick="high()">Too High</button>
+</div>
+
+<!-- ========== CASUAL CHESS ========== -->
+<div id="chess" class="game">
+<h2>Casual Chess (You vs AI)</h2>
+<p>White = You | Black = AI</p>
+<table id="chessBoard"></table>
+</div>
+
+<!-- ========== TIC TAC TOE ========== -->
+<div id="ttt" class="game">
+<h2>Tic Tac Toe</h2>
+<table>
+<tr><td onclick="playTTT(0)"></td><td onclick="playTTT(1)"></td><td onclick="playTTT(2)"></td></tr>
+<tr><td onclick="playTTT(3)"></td><td onclick="playTTT(4)"></td><td onclick="playTTT(5)"></td></tr>
+<tr><td onclick="playTTT(6)"></td><td onclick="playTTT(7)"></td><td onclick="playTTT(8)"></td></tr>
+</table>
+<p id="tttResult"></p>
+</div>
+
+<!-- ========== QUIZ ========== -->
+<div id="quiz" class="game">
+<h2>Quiz (Class 8–9)</h2>
+<p id="question"></p>
+<button onclick="answer(true)">True</button>
+<button onclick="answer(false)">False</button>
+<p id="score"></p>
+</div>
+
+<script>
+/* MENU */
+function show(id){
+document.querySelectorAll('.game').forEach(g=>g.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+/* ========== GUESS MY NUMBER AI ========== */
+let lo=1, hi=100, g=50;
+function update(){g=Math.floor((lo+hi)/2
